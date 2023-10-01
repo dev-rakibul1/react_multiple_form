@@ -5,38 +5,39 @@ import {
   FaLinkedinIn,
   FaTwitter,
 } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const homeLeftMenu = () => {
   return (
-    <nav className="flex items-center justify-between">
-      <a href="#" className="navbar-brand w-[50px] py-2">
+    <nav className="flex items-center justify-between py-4 px-0">
+      <Link to="/" className="navbar-brand w-[50px] py-2">
         <img
           src="https://www.ansonika.com/wilio/img/logo.png"
           className="w-full max-w-full"
           alt="logo"
         />
-      </a>
+      </Link>
 
-      <ul className="navbar-nav flex items-center justify-between">
+      <ul className="navbar-nav flex items-center justify-between mr-10 sm:mr-7 lg:mr-0">
         <li className="nav-items px-2 py-2">
-          <a href="" className="nav-link text-gray-300 hover:text-white">
+          <Link to="/" className="nav-link text-gray-300 hover:text-white">
             <FaFacebookF />
-          </a>
+          </Link>
         </li>
         <li className="nav-items px-2 py-2">
-          <a href="" className="nav-link text-gray-300 hover:text-white">
+          <Link to="/" className="nav-link text-gray-300 hover:text-white">
             <FaTwitter />
-          </a>
+          </Link>
         </li>
         <li className="nav-items px-2 py-2">
-          <a href="" className="nav-link text-gray-300 hover:text-white">
+          <Link to="/" className="nav-link text-gray-300 hover:text-white">
             <FaGooglePlusG />
-          </a>
+          </Link>
         </li>
         <li className="nav-items px-2 py-2">
-          <a href="" className="nav-link text-gray-300 hover:text-white">
+          <Link to="/" className="nav-link text-gray-300 hover:text-white">
             <FaLinkedinIn />
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>

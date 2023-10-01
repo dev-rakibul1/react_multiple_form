@@ -1,22 +1,26 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
+import Spinner from "../../../shared/menu/Spinner";
 import FormPreview from "../../formPreview/FormPreview";
-import FormSuccessMeg from "./formSuccessMeg/FormSuccessMeg";
 
 const Form = () => {
+  const url =
+    "https://multi-step-form-server-o9a8qsu7w-dev-rakibul1.vercel.app/api/v1/user-feedback/create-feedback";
   const totalForm = [1, 2, 3, 4, 5];
   const [multiFromNumber, setMuliFormNumber] = useState(totalForm[0]);
   const [errorMeg, setErrorMeg] = useState("");
   const [isSubmit, setIsSubmit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   // user initial value set
   const [userInfo, setUserInfo] = useState({
     firstName: "",
     lastName: "",
     gmail: "",
-    country: "bangladesh", // Set the default selected option
+    country: "bangladesh",
     age: 0,
-    gender: "", // Set the default gender
+    gender: "",
     termsAccepted: false,
     questionOne: "",
     questionTwo: "",
@@ -165,16 +169,41 @@ const Form = () => {
     },
   ];
 
-  console.log(userCompleteInfo);
-
   // Final form submit
-  const finalFormSubmit = () => {
-    console.log(userCompleteInfo);
-    setIsSubmit(true);
+  const finalFormSubmit = async () => {
+    try {
+      setIsLoading(true);
+      await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userCompleteInfo),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok", response);
+          }
+          return response.json();
+        })
+        .then((responseData) => {
+          console.log("Response:", responseData);
+          navigate("/submit-success");
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          navigate("/submit-fail");
+        });
+      setIsSubmit(true);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
   };
 
   return (
-    <div className="w-full md:w-[75%] mx-auto mt-12">
+    <div className="w-full lg:w-[75%] mx-auto mt-12">
       {errorMeg && (
         <div className="text-center w-full">
           <small className="text-center text-red-600 bg-red-200 p-2 mt-3 inline-block w-full rounded-sm">
@@ -196,6 +225,8 @@ const Form = () => {
           </span>
         </div>
       )}
+
+      {isLoading && <Spinner />}
 
       {/* title condition */}
       {multiFromNumber === 1 && (
@@ -263,10 +294,10 @@ const Form = () => {
           </div>
 
           {/* Age & Radio box */}
-          <div className="flex items-center justify-between h-full mt-5">
+          <div className="md:flex items-center justify-between h-full mt-5">
             {/* age */}
             <input
-              className="outline-0 border border-slate-300  p-2 rounded-sm focus:border-blue-500 transition-all duration-300"
+              className="outline-0 border border-slate-300  p-2 rounded-sm focus:border-blue-500 transition-all duration-300 w-full lg:w-[40%]"
               type="number"
               name="age"
               id=""
@@ -276,7 +307,7 @@ const Form = () => {
             />
 
             {/* Male */}
-            <div className="flex items-center justify-between w-full px-7">
+            <div className=" md:flex items-center justify-start w-full  mt-3 md:mt-0 md:ml-4">
               <div className="">
                 <input
                   type="radio"
@@ -293,7 +324,7 @@ const Form = () => {
               </div>
 
               {/* female */}
-              <div className="">
+              <div className="md:ml-4">
                 <input
                   id="female"
                   name="gender"
@@ -355,7 +386,7 @@ const Form = () => {
             <h2 className="font-normal text-xl pb-3 w-full">
               How do rate your overall satisfaction about the service provided?
             </h2>
-            <div className="flex items-start justify-center flex-col w-full px-2 mt-7">
+            <div className="flex items-start justify-center flex-col w-full px-2 mt-7 capitalize">
               {/* question 1 */}
               <div className=" flex items-center justify-start">
                 <div className="form-control">
@@ -483,7 +514,7 @@ const Form = () => {
             <h2 className="font-normal text-xl pb-3 w-full">
               How did you hear about our company?
             </h2>
-            <div className="flex items-start justify-center flex-col w-full px-2 mt-7">
+            <div className="flex items-start justify-center flex-col w-full px-2 mt-7 capitalize">
               {/* question 1 */}
               <div className=" flex items-center justify-start">
                 <div className="form-control">
@@ -604,7 +635,7 @@ const Form = () => {
             <h2 className="font-normal text-xl pb-3 w-full">
               Do you think to suggest our company to a friend or parent?
             </h2>
-            <div className="flex items-start justify-center flex-col w-full px-2 mt-7">
+            <div className="flex items-start justify-center flex-col w-full px-2 mt-7 capitalize">
               {/* question 1 */}
               <div className=" flex items-center justify-start">
                 <div className="form-control">
@@ -630,13 +661,15 @@ const Form = () => {
                   <label className="label cursor-pointer">
                     <input
                       type="radio"
-                      value="Maybe"
+                      value="May be"
                       className="radio checked:bg-blue-500"
                       name="questionThree"
-                      checked={userInfo.questionThree === "Maybe"}
+                      checked={userInfo.questionThree === "May be"}
                       onChange={handleRadioChangeThree}
                     />
-                    <span className="label-text text-base ml-2">Maybe</span>
+                    <span className="label-text text-base ml-2">
+                      May <span className="lowercase">be</span>
+                    </span>
                   </label>
                 </div>
               </div>
@@ -675,7 +708,7 @@ const Form = () => {
               {/* question 05 */}
               <div className="w-full mt-5">
                 <label htmlFor="text-area">
-                  In no, please describe with few words why
+                  If no, please describe with few words why
                 </label>
                 <textarea
                   name="message"
@@ -712,44 +745,39 @@ const Form = () => {
         <div>
           {/* Radio box */}
 
-          {isSubmit ? (
-            <>
-              <FormSuccessMeg />
-            </>
-          ) : (
-            <>
-              <div
-                className={`${
-                  multiFromNumber === 0 && "mt-5"
-                } flex items-center justify-between flex-col h-full`}
-              >
-                <div className="flex items-start justify-center flex-col w-full px-2"></div>
-              </div>
+          <div
+            className={`${
+              multiFromNumber === 0 && "mt-5"
+            } flex items-center justify-between flex-col h-full`}
+          >
+            <div className="flex items-start justify-center flex-col w-full px-2"></div>
+          </div>
 
-              {
-                // eslint-disable-next-line array-callback-return
-                userCompleteInfo.map((user, i) => (
-                  <FormPreview data={user} key={i} />
-                ))
-              }
+          {
+            // eslint-disable-next-line array-callback-return
+            userCompleteInfo.map((user, i) => (
+              <FormPreview data={user} key={i} />
+            ))
+          }
 
-              {/* btn */}
-              <div className="ml-auto flex items-center justify-end mt-12">
-                <button
-                  className="px-9 py-2 rounded-md text-gray-500 mx-4 bg-gray-200 hover:bg-pink-600 transition-all duration-300 hover:text-white"
-                  onClick={prevButton}
-                >
-                  Prev
-                </button>
-                <button
-                  className="px-9 py-2 rounded-md text-white mx-4 bg-blue-600 hover:bg-pink-600 transition-all duration-300 "
-                  onClick={finalFormSubmit}
-                >
-                  Submit
-                </button>
-              </div>
-            </>
-          )}
+          {/* btn */}
+          <div className="ml-auto flex items-center justify-end mt-12">
+            <button
+              className="px-9 py-2 rounded-md text-gray-500 mx-4 bg-gray-200 hover:bg-pink-600 transition-all duration-300 hover:text-white"
+              onClick={prevButton}
+            >
+              Prev
+            </button>
+
+            <button
+              className="px-9 py-2 rounded-md text-white mx-4 bg-blue-600 hover:bg-pink-600 transition-all duration-300 "
+              type="submit"
+              disabled={isLoading}
+              onClick={finalFormSubmit}
+            >
+              {isLoading ? "Submitting..." : "Submit"}
+            </button>
+          </div>
         </div>
       )}
     </div>

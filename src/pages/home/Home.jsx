@@ -1,14 +1,15 @@
 import React from "react";
 import HomeLeft from "../../components/homeComp/homeLeft/HomeLeft";
 import HomeRight from "../../components/homeComp/homeRight/HomeRight";
+import Menu from "../../shared/menu/Menu";
 import "./Home.css";
 
 const Home = () => {
   return (
     <section>
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:gird-cols-2 gap-7">
+      <div className="relative grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:gird-cols-2 gap-7 overflow-hidden">
         {/* home left */}
-        <div className="bg-blue-700 h-screen left-section">
+        <div className="bg-blue-700  left-section">
           <div className="full-width-container">
             <div className="">
               <HomeLeft />
@@ -48,11 +49,16 @@ const Home = () => {
           </footer>
         </div>
         {/* home right or form area */}
-        <div className=" h-screen py-2">
+        <div className=" h-screen py-2 overflow-y-scroll ">
           <div className="full-width-container">
             <div className="">
               <HomeRight />
             </div>
+          </div>
+
+          {/* icons */}
+          <div className="absolute lg:static right-0 top-0 z-10 ">
+            <Menu />
           </div>
         </div>
       </div>

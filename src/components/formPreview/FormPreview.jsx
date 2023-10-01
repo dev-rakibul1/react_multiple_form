@@ -20,13 +20,13 @@ const FormPreview = ({ data }) => {
       {/* basic info */}
       <h4 className="py-2 font-semibold text-lg">User basic information</h4>
       <article className="grid grid-cols-1 sm:grid-cols-2 md:gird-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
-        <div className="">
+        <div className="capitalize">
           <ul>
             <li>
               <strong className="capitalize">Name</strong>:{" "}
               {`${firstName} ${lastName}`}
             </li>
-            <li>
+            <li className="lowercase">
               <strong className="capitalize">Gmail</strong>: {gmail}
             </li>
             <li>
@@ -34,7 +34,7 @@ const FormPreview = ({ data }) => {
             </li>
           </ul>
         </div>
-        <div className="">
+        <div className="capitalize">
           <ul>
             <li>
               <strong className="capitalize">Age</strong>: {age}
@@ -59,20 +59,20 @@ const FormPreview = ({ data }) => {
             <h4 className=" text-base font-bold w-full ">
               How do rate your overall satisfaction about the service provided?
             </h4>
-            <span> Answer: {questionOne}</span>
+            <span className="capitalize"> Answer: {questionOne}</span>
           </li>
 
           <li className="mt-3">
             <h4 className=" text-base font-bold w-full ">
               How did you hear about our company?
             </h4>
-            <span> Answer: {questionTwo}</span>
+            <span className="capitalize"> Answer: {questionTwo}</span>
           </li>
           <li className="mt-3">
             <h4 className=" text-base font-bold w-full ">
               Do you think to suggest our company to a friend or parent?
             </h4>
-            <span> Answer: {questionThree}</span>
+            <span className="capitalize"> Answer: {questionThree}</span>
           </li>
         </ul>
         <div className="mt-3">
